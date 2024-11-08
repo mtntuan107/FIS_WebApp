@@ -1,0 +1,23 @@
+server:
+  port: 8000
+spring:
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/custom"
+    username: postgres
+    password: Admin@123
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/custom
+
+keycloak:
+  auth-server-url: http://localhost:8080
+  realm: custom
+  resource: custom
+  public-client: true
+  bearer-only: true
