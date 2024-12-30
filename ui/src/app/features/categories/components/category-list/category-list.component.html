@@ -1,0 +1,31 @@
+<div *ngIf="categories.length > 0; else noCategories" class="max-w-4xl mx-auto my-4 p-4 bg-white rounded-lg shadow-md">
+  <table class="min-w-full table-auto border-collapse border border-gray-200">
+    <thead>
+    <tr class="bg-gray-100">
+      <th class="px-6 py-3 text-left font-semibold text-gray-700">Category Name</th>
+      <th class="px-6 py-3 text-left font-semibold text-gray-700">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let category of categories" class="border-b border-gray-200">
+      <td class="px-6 py-3 text-gray-800">{{ category.name }}</td>
+      <td class="px-6 py-3">
+        <button
+          class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+          (click)="deleteCategory(category.id)">
+          Delete
+        </button>
+        <button
+          class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 ml-2"
+          (click)="editCategory(category)">
+          Edit
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noCategories>
+  <p class="text-gray-500 text-center my-4">No categories available.</p>
+</ng-template>

@@ -1,0 +1,40 @@
+<aside
+  (mouseenter)="expandSidebar()"
+  (mouseleave)="collapseSidebar()"
+  [ngClass]="{ 'w-64': isOpen, 'w-16': !isOpen }"
+  class="bg-primary-custom-brown text-white transition-all duration-300 ease-in-out overflow-hidden h-full"
+  *ngIf="role == 'admin'"
+>
+  <ul class="mt-6 space-y-4">
+    <li>
+      <a routerLink="/dashboard" class="flex items-center space-x-4 px-4 py-2 hover:bg-primary-custom-brown-2 rounded cursor-pointer">
+        <i class="fas fa-tachometer-alt"></i>
+        <span *ngIf="isOpen">Dashboard</span>
+      </a>
+    </li>
+    <li>
+      <a (click)="order()" class="flex items-center space-x-4 px-4 py-2 hover:bg-primary-custom-brown-2 rounded cursor-pointer">
+        <i class="fas fa-shopping-cart"></i>
+        <span *ngIf="isOpen">Orders</span>
+      </a>
+    </li>
+    <li>
+      <a (click)="dessert()" class="flex items-center space-x-4 px-4 py-2 hover:bg-primary-custom-brown-2 rounded cursor-pointer">
+        <i class="fas fa-box"></i>
+        <span *ngIf="isOpen">Dessert</span>
+      </a>
+    </li>
+    <li>
+      <a (click)="category()" class="flex items-center space-x-4 px-4 py-2 hover:bg-primary-custom-brown-2 rounded cursor-pointer">
+        <i class="fas fa-users"></i>
+        <span *ngIf="isOpen">Category</span>
+      </a>
+    </li>
+    <li>
+      <a (click)="logout()" class="flex items-center space-x-4 px-4 py-2 hover:bg-primary-custom-brown-2 rounded cursor-pointer">
+        <i class="fas fa-users"></i>
+        <span *ngIf="isOpen">Logout</span>
+      </a>
+    </li>
+  </ul>
+</aside>

@@ -1,0 +1,40 @@
+<div class="category-create-container" *ngIf="modal" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50">
+  <div class="modal-content bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+    <h2 class="text-2xl font-semibold mb-4">Create Category</h2>
+
+    <!-- Nút đóng "X" -->
+    <button
+      (click)="closeModal()"
+      class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 font-bold text-xl"
+    >
+      X
+    </button>
+
+    <form [formGroup]="categoryForm" (ngSubmit)="createCategory()">
+      <div class="form-group mb-4">
+        <label for="name" class="block text-gray-700">Category Name:</label>
+        <input
+          id="name"
+          type="text"
+          class="form-control w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          formControlName="name"
+          [ngClass]="{ 'is-invalid': categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched }"
+        />
+        <div
+          *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched"
+          class="text-red-500 text-sm mt-2"
+        >
+          Category name is required.
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 disabled:bg-gray-400"
+        [disabled]="categoryForm.invalid"
+      >
+        Create Category
+      </button>
+    </form>
+  </div>
+</div>

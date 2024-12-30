@@ -1,0 +1,53 @@
+<h1>HOME</h1>
+<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+
+
+<div id="carouselExampleControls" class="relative my-8" data-te-carousel-init data-te-carousel-slide>
+  <div class="relative w-full overflow-hidden rounded-lg">
+    <!-- Slide 1 -->
+    <div class="hidden duration-700 ease-in-out" data-te-carousel-item>
+      <img src="https://via.placeholder.com/800x400/FFB6C1/000000?text=Chocolate+Cake" class="block w-full" alt="Chocolate Cake" />
+    </div>
+    <!-- Slide 2 -->
+    <div class="hidden duration-700 ease-in-out" data-te-carousel-item>
+      <img src="https://via.placeholder.com/800x400/FF69B4/000000?text=Vanilla+Cake" class="block w-full" alt="Vanilla Cake" />
+    </div>
+    <!-- Slide 3 -->
+    <div class="hidden duration-700 ease-in-out" data-te-carousel-item>
+      <img src="https://via.placeholder.com/800x400/F08080/000000?text=Strawberry+Cake" class="block w-full" alt="Strawberry Cake" />
+    </div>
+  </div>
+  <!-- Controls -->
+  <button type="button" data-te-target="#carouselExampleControls" data-te-slide="prev" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 focus:outline-none">
+      <span class="inline-flex items-center justify-center w-10 h-10 bg-pink-600 text-white rounded-full">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </span>
+  </button>
+  <button type="button" data-te-target="#carouselExampleControls" data-te-slide="next" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 focus:outline-none">
+      <span class="inline-flex items-center justify-center w-10 h-10 bg-pink-600 text-white rounded-full">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </span>
+  </button>
+</div>
+
+<!-- About Section -->
+<section class="py-12 bg-white">
+  <div class="container mx-auto text-center">
+    <h2 class="text-2xl font-bold text-pink-600 mb-4">Our Sweet Collection</h2>
+    <p class="text-gray-700">Discover the most delightful and delicious cakes, crafted with love and passion. Perfect for every occasion!</p>
+  </div>
+</section>
+<script>
+  // Initialize Tailwind Elements slider
+  document.addEventListener("DOMContentLoaded", function () {
+    const carousel = document.querySelector("[data-te-carousel-init]");
+    if (carousel) {
+      carousel.setAttribute("data-te-carousel-slide", true);
+    }
+  });
+</script>

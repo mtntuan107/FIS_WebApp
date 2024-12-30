@@ -1,0 +1,39 @@
+<header  class="bg-primary-custom-brown text-white shadow-md">
+  <div  class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <div class="text-2xl font-bold">
+      <h3 *ngIf="role == 'admin'"><a (click)="home()">Admin Dashboard</a></h3>
+      <h3 *ngIf="role != 'admin'"><a (click)="home()" class="cursor-pointer">Happy Bakery</a></h3>
+    </div>
+    <nav class="space-x-4" *ngIf="role != 'admin'">
+      <a *ngIf="role == '' || role == 'user'"
+         (click)="dessert()"
+         [ngClass]="{'text-blue-500': isActive('dessert'), 'hover:text-gray-200': !isActive('dessert')}"
+         class="cursor-pointer">Dessert</a>
+      <a *ngIf="role == '' || role == 'user'"
+         (click)="order()"
+         [ngClass]="{'text-blue-500': isActive('order'), 'hover:text-gray-200': !isActive('order')}"
+         class="cursor-pointer">Order</a>
+      <a *ngIf="role == '' || role == 'user'"
+         (click)="toggleCart()"
+         [ngClass]="{'text-blue-500': isActive('cart'), 'hover:text-gray-200': !isActive('cart')}"
+         class="cursor-pointer">Cart</a>
+      <a *ngIf="role == '' || role == 'user'"
+         (click)="profile()"
+         [ngClass]="{'text-blue-500': isActive('profile'), 'hover:text-gray-200': !isActive('profile')}"
+         class="cursor-pointer">Profile</a>
+      <a *ngIf="role == ''"
+         (click)="login()"
+         [ngClass]="{'text-blue-500': isActive('login'), 'hover:text-gray-200': !isActive('login')}"
+         class="cursor-pointer">Login</a>
+      <a *ngIf="role == 'admin' || role == 'user'"
+         (click)="logout()"
+         [ngClass]="{'text-blue-500': isActive('logout'), 'hover:text-gray-200': !isActive('logout')}"
+         class="cursor-pointer">Logout</a>
+      <a *ngIf="role == ''"
+         (click)="register()"
+         [ngClass]="{'text-blue-500': isActive('register'), 'hover:text-gray-200': !isActive('register')}"
+         class="cursor-pointer">Register</a>
+    </nav>
+  </div>
+</header>
+

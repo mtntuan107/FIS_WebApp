@@ -1,0 +1,12 @@
+<button (click)="openCreateModal()">Create</button>
+<app-category-list (updateCategories)="updateCategories($event)" (editCategoryEvent)="editCategories($event)"/>
+<app-category-create
+  (newCategory)="addCategories($event)"
+  [modal]="modalCreate"
+  (close)="closeCreateModal($event)"/>
+<app-category-update
+  *ngIf="categoryToEdit"
+  [categoryToEdit]="categoryToEdit"
+  (categoryUpdated)="handleCategoryUpdate($event)"
+/>
+

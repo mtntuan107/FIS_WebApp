@@ -1,0 +1,18 @@
+<div *ngIf="loading" class="loading">
+  Loading posts...
+</div>
+
+<div *ngIf="!loading && posts.length > 0">
+  <h2>Post List</h2>
+  <ul>
+    <li *ngFor="let post of posts">
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.body }}</p>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="!loading && posts.length === 0">
+  <p>No posts available.</p>
+</div>
+

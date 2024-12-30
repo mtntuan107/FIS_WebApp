@@ -1,0 +1,114 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6 text-center">Orders</h1>
+
+
+  <ng-container *ngIf="orders.length > 0; else noOrders">
+    <table class="table-auto w-full border-collapse border border-gray-300">
+      <thead class="bg-gray-200">
+      <tr>
+        <th class="border border-gray-300 px-4 py-2 text-left">#</th>
+        <th class="border border-gray-300 px-4 py-2 text-left">Status</th>
+        <th class="border border-gray-300 px-4 py-2 text-left">Order date</th>
+        <th class="border border-gray-300 px-4 py-2 text-left">User</th>
+        <th class="border border-gray-300 px-4 py-2 text-left">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let order of orders; let i = index">
+        <tr
+          *ngIf="(role === 'user' && order.user.id === user.id) || role === 'admin'"
+          class="odd:bg-white even:bg-gray-50">
+          <td class="border border-gray-300 px-4 py-2">{{ i + 1 }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ order.status }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ order.date | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+          <td class="border border-gray-300 px-4 py-2">
+            {{ order.user.firstname }} {{ order.user.lastname }}
+          </td>
+          <td class="border border-gray-300 px-4 py-2">
+            <div class="space-x-2">
+              <button
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                (click)="showDetailModal(order.id)">
+                Show detail
+              </button>
+
+              <button
+                class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded"
+                (click)="updateOrderStatus(order.id, false)"
+                *ngIf="order.status == 'PENDING' && role == 'user'">
+                Cancel order
+              </button>
+
+              <button
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+                (click)="deleteOrder(order.id)"
+                *ngIf="(order.status == 'COMPLETED' || order.status == 'CANCELED') && role == 'user'">
+                Delete order
+              </button>
+              <button
+                class="bg-lime-600 hover:bg-lime-700 text-white font-bold py-1 px-3 rounded"
+                (click)="updateOrderStatus(order.id, true)"
+                *ngIf="(order.status == 'PENDING' || order.status == 'PROCESSING') && role == 'admin'">
+                Confirm
+              </button>
+              <button
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+                (click)="deleteOrder(order.id)"
+                *ngIf="(order.status == 'COMPLETED' || order.status == 'CANCELED') && role == 'admin'">
+                Delete order
+              </button>
+            </div>
+          </td>
+
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </ng-container>
+
+  <!-- Thông báo nếu không có orders -->
+  <ng-template #noOrders>
+    <div class="text-center py-8">
+      <p class="text-gray-500 text-lg">Không có order nào.</p>
+    </div>
+  </ng-template>
+</div>
+
+<!-- Modal (Pop-up) -->
+<div *ngIf="detailModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+    <h2 class="text-2xl font-bold mb-4">Order Details</h2>
+
+    <div *ngIf="details.length > 0">
+
+      <!-- Chi tiết từng món ăn -->
+      <div *ngFor="let item of details">
+        <div class="mb-4 border-b border-gray-300 pb-4">
+          <div class="flex items-center space-x-4">
+            <img [src]="item.dessert.image" alt="{{ item.dessert.name }}" class="w-16 h-16 object-cover rounded-md">
+            <div>
+              <div class="font-semibold">{{ item.dessert.name }}</div>
+              <div class="text-sm text-gray-500">{{ item.dessert.category.name }}</div>
+              <div class="mt-2 text-lg font-bold">${{ item.dessert.price * item.quantity }}</div>
+              <div class="text-sm text-gray-400">Quantity: {{ item.quantity }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="flex justify-between text-lg font-semibold">
+          <span>Total</span>
+          <span>
+      ${{ getTotalPrice() }}
+    </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 flex justify-end">
+      <button (click)="detailModal = false" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg">
+        Close
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,92 @@
+<div *ngIf="openModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+  <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative">
+    <!-- Close Button -->
+    <button
+      (click)="close()"
+      class="absolute top-2 right-2 text-gray-600 hover:text-gray-900 text-2xl font-semibold focus:outline-none"
+    >
+      &times;
+    </button>
+
+    <!-- Modal Title -->
+    <h2 class="text-2xl font-semibold mb-4">Create Dessert</h2>
+
+    <!-- Form -->
+    <form [formGroup]="dessertForm" (ngSubmit)="createDessert()">
+      <!-- Dessert Name Field -->
+      <div class="form-group mb-4">
+        <label for="name" class="block text-sm font-medium text-gray-700">Dessert Name:</label>
+        <input
+          id="name"
+          formControlName="name"
+          type="text"
+          class="form-control w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Enter dessert name"
+        />
+        <div *ngIf="dessertForm.get('name')?.invalid && dessertForm.get('name')?.touched">
+          <small class="text-red-500 text-xs">Name is required</small>
+        </div>
+      </div>
+
+      <!-- Category Field -->
+      <div class="form-group mb-4">
+        <label for="categoryId" class="block text-sm font-medium text-gray-700">Category:</label>
+        <select
+          id="categoryId"
+          formControlName="categoryId"
+          class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          <option value="">Select Category</option>
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+        <div *ngIf="dessertForm.get('categoryId')?.invalid && dessertForm.get('categoryId')?.touched">
+          <small class="text-red-500 text-xs">Category is required</small>
+        </div>
+      </div>
+
+      <!-- Price Field -->
+      <div class="form-group mb-4">
+        <label for="price" class="block text-sm font-medium text-gray-700">Price:</label>
+        <input
+          id="price"
+          formControlName="price"
+          type="number"
+          class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Enter price"
+        />
+        <div *ngIf="dessertForm.get('price')?.invalid && dessertForm.get('price')?.touched">
+          <small class="text-red-500 text-xs">Price is required</small>
+        </div>
+      </div>
+
+      <!-- Image Field -->
+      <div class="form-group mb-4">
+        <label for="image" class="block text-sm font-medium text-gray-700">Image:</label>
+        <input
+          id="image"
+          type="file"
+          class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          (change)="onFileSelected($event)"
+        />
+        <div *ngIf="dessertForm.get('image')?.invalid && dessertForm.get('image')?.touched">
+          <small class="text-red-500 text-xs">Image is required</small>
+        </div>
+
+        <div *ngIf="imagePreview" class="mt-2">
+          <img [src]="imagePreview" alt="Image Preview" class="max-w-xs max-h-32" />
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 disabled:bg-gray-300"
+        [disabled]="dessertForm.invalid"
+      >
+        Create Dessert
+      </button>
+    </form>
+  </div>
+</div>

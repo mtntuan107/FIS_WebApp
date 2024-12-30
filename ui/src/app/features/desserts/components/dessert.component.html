@@ -1,0 +1,118 @@
+<div class="mt-6 flex gap-4 mr-2 ml-2" *ngIf="role=='admin'">
+  <!-- Box mới nằm ngang với Box chứa Search và Filter -->
+  <div class="p-4 border border-gray-300 rounded-lg shadow-sm flex-1">
+    <h3 class="text-lg font-semibold text-gray-700">Tool</h3>
+    <p class="text-sm text-gray-500 mb-4">Management tool
+    </p>
+
+    <!-- Buttons -->
+    <div class="flex space-x-4">
+      <!-- Create Button -->
+      <div class="relative group">
+        <button class="p-3 bg-blue-500 text-white rounded-full shadow hover:bg-blue-600" (click)="openModalCreate()">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+        </button>
+        <!-- Tooltip (Hiển thị khi hover) -->
+        <span
+          class="absolute left-1/2 transform -translate-x-1/2 top-12 bg-gray-700 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 group-hover:block transition-opacity duration-300">
+      Create
+    </span>
+      </div>
+
+      <!-- Generate Button -->
+      <div class="relative inline-block group">
+        <button (click)="toggleModal()"
+                class="p-3 bg-green-500 text-white rounded-full shadow hover:bg-green-600 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="h-5 w-5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
+          </svg>
+        </button>
+      </div>
+      <div class="relative inline-block group">
+        <button (click)="openModal()"
+                class="p-3 bg-yellow-500 text-white rounded-full shadow hover:bg-yellow-600 focus:outline-none">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path d="M10 14H12M12 14H14M12 14V16M12 14V12" stroke="#ffffff" stroke-width="1.5"
+                    stroke-linecap="round"></path>
+              <path
+                d="M22 11.7979C22 9.16554 22 7.84935 21.2305 6.99383C21.1598 6.91514 21.0849 6.84024 21.0062 6.76946C20.1506 6 18.8345 6 16.2021 6H15.8284C14.6747 6 14.0979 6 13.5604 5.84678C13.2651 5.7626 12.9804 5.64471 12.7121 5.49543C12.2237 5.22367 11.8158 4.81578 11 4L10.4497 3.44975C10.1763 3.17633 10.0396 3.03961 9.89594 2.92051C9.27652 2.40704 8.51665 2.09229 7.71557 2.01738C7.52976 2 7.33642 2 6.94975 2C6.06722 2 5.62595 2 5.25839 2.06935C3.64031 2.37464 2.37464 3.64031 2.06935 5.25839C2 5.62595 2 6.06722 2 6.94975M21.9913 16C21.9554 18.4796 21.7715 19.8853 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V11"
+                stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path>
+            </g>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Modal -->
+<div class="fixed inset-0 bg-gray-800 bg-opacity-70 flex justify-center items-center" *ngIf="generateModal===true">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-64">
+    <h2 class="text-xl font-semibold mb-4">Choose an Action</h2>
+    <div class="flex flex-col space-y-3">
+      <button (click)="generateToPDF()" class="p-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none">
+        PDF
+      </button>
+      <button (click)="generateToXLSX()"
+              class="p-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none">XLSX
+      </button>
+      <button (click)="generateToDOCX()"
+              class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">DOCX
+      </button>
+    </div>
+    <button
+      class="mt-4 p-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none"
+      (click)="toggleModal()"
+    >
+      Close
+    </button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  *ngIf="showModal"
+  class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50"
+>
+  <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
+    <h2 class="text-lg font-bold mb-4">Import Excel</h2>
+    <div class="mb-4">
+      <label for="file" class="block text-sm font-medium text-gray-700">Chọn File Excel:</label>
+      <input
+        type="file"
+        id="file"
+        (change)="onFileSelected($event)"
+        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+    <div class="flex justify-end space-x-2">
+      <button
+        (click)="closeModal()"
+        class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+      >
+        Hủy
+      </button>
+      <button
+        (click)="onSubmit()"
+        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+      >
+        Upload
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-dessert-create (newDessert)="addDessert($event)" [openModal]="createModal"
+                    (closeModal)="closeModalCreate($event)"/>
+<app-dessert-list (updateDesserts)="updateDesserts($event)"/>
+
+<app-dessert-update *ngIf="isOpenUpdateModal$ | async"></app-dessert-update>
+
+

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.29.0">
+  <bpmn:process id="p" name="Order" isExecutable="true" camunda:historyTimeToLive="180">
+    <bpmn:startEvent id="Event_00wi5w2" name="Start order">
+      <bpmn:outgoing>Flow_1gikjns</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1gikjns" sourceRef="Event_00wi5w2" targetRef="pending" />
+    <bpmn:endEvent id="Event_130kgcs" name="Order successfully">
+      <bpmn:incoming>Flow_15iualx</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0cg2b1g" sourceRef="pending" targetRef="Gateway_1y2bzv4" />
+    <bpmn:userTask id="pending" name="Order Pending">
+      <bpmn:incoming>Flow_1gikjns</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cg2b1g</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_01j75qc" sourceRef="processing" targetRef="complete" />
+    <bpmn:userTask id="processing" name="Order Processing">
+      <bpmn:incoming>processCondition</bpmn:incoming>
+      <bpmn:outgoing>Flow_01j75qc</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_15iualx" sourceRef="complete" targetRef="Event_130kgcs" />
+    <bpmn:endEvent id="Event_0s0oxhz" name="Sorry but I dont want this">
+      <bpmn:incoming>Flow_1e8ca8f</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1e8ca8f" sourceRef="cancel" targetRef="Event_0s0oxhz" />
+    <bpmn:exclusiveGateway id="Gateway_1y2bzv4" name="Is order cancel ?">
+      <bpmn:incoming>Flow_0cg2b1g</bpmn:incoming>
+      <bpmn:outgoing>processCondition</bpmn:outgoing>
+      <bpmn:outgoing>cancelCondition</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="processCondition" name="Process" sourceRef="Gateway_1y2bzv4" targetRef="processing">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${status == 'process'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="cancelCondition" name="Cancel" sourceRef="Gateway_1y2bzv4" targetRef="cancel">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${status == 'cancel'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="complete" name="Order Complete">
+      <bpmn:incoming>Flow_01j75qc</bpmn:incoming>
+      <bpmn:outgoing>Flow_15iualx</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="cancel" name="Order Cancel">
+      <bpmn:incoming>cancelCondition</bpmn:incoming>
+      <bpmn:outgoing>Flow_1e8ca8f</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="p">
+      <bpmndi:BPMNShape id="Event_00wi5w2_di" bpmnElement="Event_00wi5w2">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="145" y="145" width="54" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_130kgcs_di" bpmnElement="Event_130kgcs">
+        <dc:Bounds x="852" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="842" y="145" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_06wzubh_di" bpmnElement="pending">
+        <dc:Bounds x="240" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0z9803y_di" bpmnElement="processing">
+        <dc:Bounds x="530" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0s0oxhz_di" bpmnElement="Event_0s0oxhz">
+        <dc:Bounds x="682" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="666" y="255" width="77" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1y2bzv4_di" bpmnElement="Gateway_1y2bzv4" isMarkerVisible="true">
+        <dc:Bounds x="385" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="374" y="65" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0r676z1_di" bpmnElement="complete">
+        <dc:Bounds x="690" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gukl80_di" bpmnElement="cancel">
+        <dc:Bounds x="530" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1gikjns_di" bpmnElement="Flow_1gikjns">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="240" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cg2b1g_di" bpmnElement="Flow_0cg2b1g">
+        <di:waypoint x="340" y="120" />
+        <di:waypoint x="385" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01j75qc_di" bpmnElement="Flow_01j75qc">
+        <di:waypoint x="630" y="120" />
+        <di:waypoint x="690" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15iualx_di" bpmnElement="Flow_15iualx">
+        <di:waypoint x="790" y="120" />
+        <di:waypoint x="852" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e8ca8f_di" bpmnElement="Flow_1e8ca8f">
+        <di:waypoint x="630" y="230" />
+        <di:waypoint x="682" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_115p50j_di" bpmnElement="processCondition">
+        <di:waypoint x="435" y="120" />
+        <di:waypoint x="530" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="463" y="102" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ukpiqn_di" bpmnElement="cancelCondition">
+        <di:waypoint x="410" y="145" />
+        <di:waypoint x="410" y="230" />
+        <di:waypoint x="530" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="432" y="213" width="35" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

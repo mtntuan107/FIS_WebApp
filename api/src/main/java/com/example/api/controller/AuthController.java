@@ -1,10 +1,13 @@
 package com.example.api.controller;
 
+import com.example.api.dto.CartDTO;
 import com.example.api.dto.request.LoginRequest;
 import com.example.api.dto.request.RegisterRequest;
 import com.example.api.dto.response.ApiResponse;
 import com.example.api.dto.response.TokenResponse;
+import com.example.api.repository.UserRepository;
 import com.example.api.service.AuthService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +17,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
     @Autowired
     public AuthService authService;
 
+    @Autowired
+    public UserRepository userRepository;
 
     @PostMapping("/login")
     @CrossOrigin(origins = "http://localhost:4200")
@@ -33,6 +39,8 @@ public class AuthController {
                     (String) tokenResponse.get("scope"),
                     (String) tokenResponse.get("session_state")
             );
+
+
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -53,11 +61,12 @@ public class AuthController {
     public ResponseEntity<ApiResponse> registerUser(@RequestBody RegisterRequest request){
             authService.registerUser(request);
             ApiResponse response = new ApiResponse("Register User successfully");
+
             return ResponseEntity.ok(response);
     }
-    @PostMapping("/check-update")
+    @GetMapping("/check-update")
     @CrossOrigin(origins = "http://localhost:4200")
-    public boolean checkUpdate(@RequestBody String username) {
+    public boolean checkUpdate(@RequestParam String username) {
         return authService.checkUpdate(username);
     }
 }

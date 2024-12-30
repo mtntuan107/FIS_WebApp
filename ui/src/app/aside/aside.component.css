@@ -1,0 +1,5 @@
+/* app-aside.component.css */
+.aside {
+  transition: width 0.3s ease; /* Làm cho sự thay đổi độ rộng mượt mà */
+}
+

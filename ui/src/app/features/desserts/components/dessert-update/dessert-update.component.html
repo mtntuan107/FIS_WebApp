@@ -1,0 +1,39 @@
+<div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+    <h2 class="text-xl font-semibold mb-4">Update Dessert</h2>
+    <form [formGroup]="dessertForm" (ngSubmit)="submitUpdate()">
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-medium text-gray-700">Name:</label>
+        <input formControlName="name" id="name" required
+               class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
+      </div>
+
+      <div class="mb-4">
+        <label for="price" class="block text-sm font-medium text-gray-700">Price:</label>
+        <input formControlName="price" id="price" type="number" required
+               class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
+      </div>
+
+      <div class="mb-4">
+        <label for="categoryId" class="block text-sm font-medium text-gray-700">Category:</label>
+        <select formControlName="categoryId" id="categoryId"
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label for="image" class="block text-sm font-medium text-gray-700">Image:</label>
+        <input id="image" type="file" (change)="onFileChange($event)"
+               class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-md" />
+      </div>
+
+      <div class="flex justify-end space-x-4">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
+        <button type="button" (click)="closeModal()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
